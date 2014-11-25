@@ -18,7 +18,7 @@ namespace Platformer.States {
         public GameState(SpriteBatch spriteBatch, Texture2D player, Texture2D environment) {
             this.environmentTexture = environment;
 
-            this.player = new PlayerEntity(new VisualComponent(player), new PositionComponent(new Vector2(100, 470)), new AnimationComponent());
+            this.player = new PlayerEntity(new VisualComponent(player), new PositionComponent(new Vector2(100, 470)), new AnimationComponent(new Rectangle(0,0,32,32)));
             renderer = new Renderer(spriteBatch);
         }
 
