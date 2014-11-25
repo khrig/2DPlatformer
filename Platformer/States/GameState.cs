@@ -1,21 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gengine.Entities;
 using Gengine.State;
+using Gengine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.States {
     class GameState : State {
-        private Texture2D playerTexture;
         private Texture2D environmentTexture;
 
-        private Entity player;
+        private PlayerEntity player;
 
-        public GameState(Texture2D player, Texture2D environment) {
-            this.playerTexture = player;
+        // Should not be here
+        private Renderer renderer;
+
+        public GameState(SpriteBatch spriteBatch, Texture2D player, Texture2D environment) {
             this.environmentTexture = environment;
 
-            this.player = new PlayerEntity(playerTexture, new Vector2(100, 470));
+            this.player = new PlayerEntity(new VisualComponent(player), new PositionComponent(new Vector2(100, 470)), new AnimationComponent());
+            renderer = new Renderer(spriteBatch);
         }
 
         public override bool Update(float deltaTime) {
@@ -37,7 +41,7 @@ namespace Platformer.States {
                 groundPos.X += 32;
             }
 
-            player.Draw(spriteBatch);
+            renderer.Draw(new List<IRenderable> { player });
             return false;
         }
     }

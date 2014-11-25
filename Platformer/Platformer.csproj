@@ -35,7 +35,6 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MoveComponent.cs" />
     <Compile Include="Platformer.cs" />
     <Compile Include="PlayerEntity.cs" />
     <Compile Include="States\GameState.cs" />

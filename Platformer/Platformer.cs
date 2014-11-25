@@ -51,7 +51,7 @@ namespace Platformer {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             stateManager.Add("menu", new MenuState(Content.Load<SpriteFont>("monolight12"), new Vector2(350, 270)));
-            stateManager.Add("game", new GameState(Content.Load<Texture2D>("characters_7"), Content.Load<Texture2D>("phase-2")));
+            stateManager.Add("game", new GameState(spriteBatch, Content.Load<Texture2D>("characters_7"), Content.Load<Texture2D>("phase-2")));
 
             stateManager.PushState("menu");
         }

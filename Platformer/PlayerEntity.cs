@@ -3,20 +3,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer {
-    class PlayerEntity : Entity {
-        private Texture2D texture;
-        private Vector2 position;
-        private Rectangle sourceRectangle;
-
-        public PlayerEntity(Texture2D texture, Vector2 position) {
-            this.texture = texture;
-            this.position = position;
-
-            sourceRectangle = new Rectangle(0,0,32,32);
+    class PlayerEntity : Entity, IRenderable {
+        public PlayerEntity(VisualComponent visual, PositionComponent position, AnimationComponent animation) {
+            AddComponent(visual);
+            AddComponent(position);
+            AddComponent(animation);
         }
 
-        public override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture, position, sourceRectangle, Color.White);
-        }
+        public Texture2D Texture { get { return GetComponent<VisualComponent>().Texture; } }
+        public Vector2 Position { get { return GetComponent<PositionComponent>().Position; } }
+        public Rectangle SourceRectangle { get { return GetComponent<AnimationComponent>().SourceRectangle; } }
     }
 }
