@@ -34,7 +34,11 @@ namespace Platformer.States {
 
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
-                player.HandleCommand(commandQueue.GetNext());
+                if (commandQueue.GetNext() == "Escape") {
+                    StateManager.PopState();
+                    StateManager.PushState("menu");
+                    return;
+                }
             }
         }
 
