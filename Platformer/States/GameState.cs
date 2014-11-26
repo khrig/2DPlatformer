@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Gengine;
+using Gengine.Commands;
 using Gengine.Entities;
 using Gengine.State;
 using Gengine.Systems;
@@ -9,23 +9,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.States {
     class GameState : State {
-        private Texture2D environmentTexture;
-
         private readonly PlayerEntity player;
         private readonly TileMap tileMap;
 
         // Should not be here probably
         private readonly Renderer renderer;
 
-        public GameState(SpriteBatch spriteBatch, Texture2D player, Texture2D environment) {
-            this.environmentTexture = environment;
-
+        public GameState(SpriteBatch spriteBatch, Texture2D playerTexture, Texture2D environmentTexture) {
             this.player = new PlayerEntity(
-                new VisualComponent(player), 
-                new PositionComponent(new Vector2(100, 470)), 
+                new InputComponent(), 
+                new VisualComponent(playerTexture), 
+                new MovementComponent(new Vector2(100, 470)), 
                 new AnimationComponent(new Rectangle(0,0,32,32)));
 
-            tileMap = new TileMap(environment);
+            tileMap = new TileMap(environmentTexture);
 
             renderer = new Renderer(spriteBatch);
         }
@@ -35,8 +32,10 @@ namespace Platformer.States {
             return false;
         }
 
-        public override void HandleInput(string key) {
-            
+        public override void HandleCommands(CommandQueue commandQueue) {
+            while (commandQueue.HasCommands()) {
+                player.HandleCommand(commandQueue.GetNext());
+            }
         }
 
         public override void Init() {

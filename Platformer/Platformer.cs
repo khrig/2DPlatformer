@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using Gengine.Commands;
 using Gengine.Input;
 using Gengine.State;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,7 @@ namespace Platformer {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private readonly StateManager stateManager = new StateManager();
+        private readonly CommandQueue commandQueue = new CommandQueue();
 
         public Platformer()
             : base() {
@@ -74,7 +76,9 @@ namespace Platformer {
             if (stateManager.IsEmpty())
                 Exit();
 
-            stateManager.HandleInput(InputManager.Instance.HandleInput());
+            InputManager.Instance.HandleInput(commandQueue);
+            stateManager.HandleCommands(commandQueue);
+
             stateManager.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             base.Update(gameTime);

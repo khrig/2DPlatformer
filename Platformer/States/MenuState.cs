@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gengine.Commands;
 using Gengine.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,14 +41,21 @@ namespace Platformer.States {
             return false;
         }
 
-        public override void HandleInput(string key) {
-            if (key == "Up")
+        public override void HandleCommands(CommandQueue commandQueue) {
+            while (commandQueue.HasCommands()) {
+                string command = commandQueue.GetNext();
+                HandleCommand(command);
+            }
+        }
+
+        private void HandleCommand(string command) {
+            if (command == "Up")
                 MoveUp();
-            else if (key == "Down")
+            else if (command == "Down")
                 MoveDown();
-            else if(key == "Escape")
+            else if (command == "Escape")
                 StateManager.PopState();
-            else if (key == "Enter") {
+            else if (command == "Enter") {
                 if (options[selectedOption] == "Start") {
                     StateManager.PopState();
                     StateManager.PushState("game");
