@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Gengine;
 using Gengine.Commands;
 using Gengine.State;
 using Microsoft.Xna.Framework;
@@ -10,12 +9,10 @@ namespace Platformer.States {
     class MenuState : State {
         private readonly List<string> options = new List<string>();
         private int selectedOption;
-        private Vector2 startPosition;
-        private SpriteFont font;
+        private readonly SpriteFont font;
 
-        public MenuState(SpriteFont font, Vector2 startPosition) {
+        public MenuState(IWorld world, SpriteFont font) : base(world) {
             this.font = font;
-            this.startPosition = startPosition;
         }
 
         public override bool Update(float deltaTime) {
@@ -23,22 +20,35 @@ namespace Platformer.States {
         }
 
         public override bool Draw(SpriteBatch spriteBatch) {
-            Vector2 pos = startPosition;
-
-            pos.Y -= 100;
-            pos.X -= 50;
-            spriteBatch.DrawString(font, "PLATFORM YEAH", pos, Color.Green);
-
-            pos = startPosition;
-            for(int i = 0; i < options.Count; i++) {
-                if(i == selectedOption)
-                    spriteBatch.DrawString(font, options[i], pos, Color.LightGreen);
-                else
-                    spriteBatch.DrawString(font, options[i], pos, Color.White);
-                pos.Y += 40;
-            }
-
+            DrawTitle(spriteBatch);
+            DrawMenuOptions(spriteBatch);
             return false;
+        }
+
+        public override void Init() {
+            options.Clear();
+            options.Add("Start");
+            options.Add("Exit");
+            selectedOption = 0;
+        }
+
+        private void DrawTitle(SpriteBatch spriteBatch) {
+            string title = "PLATFORM YEAH";
+            DrawCenteredString(spriteBatch, title, World.View.Center.Y - 50, Color.Green);
+        }
+
+        private void DrawMenuOptions(SpriteBatch spriteBatch) {
+            float y = World.View.Center.Y;
+            for (int i = 0; i < options.Count; i++) {
+                DrawCenteredString(spriteBatch, options[i], y, i == selectedOption ? Color.LightGreen : Color.White);
+                y += 40;
+            }
+        }
+
+        private void DrawCenteredString(SpriteBatch spriteBatch, string text, float y, Color color) {
+            Vector2 strV = font.MeasureString(text);
+            var pos = new Vector2(World.View.Center.X - (strV.Length() / 2), y);
+            spriteBatch.DrawString(font, text, pos, color);
         }
 
         public override void HandleCommands(CommandQueue commandQueue) {
@@ -76,13 +86,6 @@ namespace Platformer.States {
             selectedOption--;
             if (selectedOption < 0)
                 selectedOption = options.Count - 1;
-        }
-
-        public override void Init() {
-            options.Clear();
-            options.Add("Start");
-            options.Add("Exit");
-            selectedOption = 0;
         }
     }
 }

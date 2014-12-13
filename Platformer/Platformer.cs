@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using Gengine;
 using Gengine.Commands;
 using Gengine.Input;
 using Gengine.State;
@@ -24,6 +25,8 @@ namespace Platformer {
         private readonly StateManager stateManager = new StateManager();
         private readonly CommandQueue commandQueue = new CommandQueue();
 
+        private readonly IWorld world;
+
         public Platformer()
             : base() {
             graphics = new GraphicsDeviceManager(this);
@@ -31,6 +34,7 @@ namespace Platformer {
             graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+            world = new TwoDWorld(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
         }
 
         /// <summary>
@@ -52,8 +56,8 @@ namespace Platformer {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            stateManager.Add("menu", new MenuState(Content.Load<SpriteFont>("monolight12"), new Vector2(350, 270)));
-            stateManager.Add("game", new GameState(spriteBatch, Content.Load<Texture2D>("characters_7"), Content.Load<Texture2D>("phase-2")));
+            stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
+            stateManager.Add("game", new GameState(world, spriteBatch, Content.Load<Texture2D>("characters_7"), Content.Load<Texture2D>("phase-2")));
 
             stateManager.PushState("menu");
         }

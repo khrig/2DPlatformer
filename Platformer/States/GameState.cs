@@ -15,8 +15,8 @@ namespace Platformer.States {
         // Should not be here probably
         private readonly Renderer renderer;
 
-        public GameState(SpriteBatch spriteBatch, Texture2D playerTexture, Texture2D environmentTexture) {
-            this.player = new PlayerEntity(
+        public GameState(IWorld world, SpriteBatch spriteBatch, Texture2D playerTexture, Texture2D environmentTexture) : base(world) {
+            player = new PlayerEntity(
                 new InputComponent(), 
                 new VisualComponent(playerTexture), 
                 new MovementComponent(new Vector2(100, 470)), 
@@ -47,7 +47,7 @@ namespace Platformer.States {
 
         public override bool Draw(SpriteBatch spriteBatch) {
             renderer.Draw(tileMap.Tiles);
-            renderer.Draw(new List<IRenderable> { player });
+            renderer.Draw(new List<IRenderable> {player});
             return false;
         }
     }
