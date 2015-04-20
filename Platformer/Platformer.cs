@@ -82,7 +82,6 @@ namespace Platformer {
 
             InputManager.Instance.HandleInput(commandQueue);
             stateManager.HandleCommands(commandQueue);
-
             stateManager.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             base.Update(gameTime);
