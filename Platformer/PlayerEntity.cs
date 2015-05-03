@@ -5,19 +5,18 @@ using System.Diagnostics;
 
 namespace Platformer {
     class PlayerEntity : Entity, IRenderable, ICollidable {
-        public PlayerEntity(InputComponent input, VisualComponent visual, MovementComponent position, AnimationComponent animation) {
+        public PlayerEntity(InputComponent input, MovementComponent position, AnimationComponent animation) {
             // Order matters
             AddComponent(input);
             AddComponent(position);
             AddComponent(animation);
-            AddComponent(visual);
 
             boundingBox = new Rectangle();
             boundingBox.Width = GetComponent<AnimationComponent>().SourceRectangle.Width;
             boundingBox.Height = GetComponent<AnimationComponent>().SourceRectangle.Height;
         }
 
-        public Texture2D Texture { get { return GetComponent<VisualComponent>().Texture; } }
+        public string TextureName { get { return GetComponent<AnimationComponent>().TextureName; } }
         public Vector2 Position { get { return GetComponent<MovementComponent>().Position; } }
         public Rectangle SourceRectangle { get { return GetComponent<AnimationComponent>().SourceRectangle; } }
 

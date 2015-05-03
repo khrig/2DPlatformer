@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using Platformer.States;
+using Gengine.Resources;
 
 #endregion
 
@@ -22,8 +23,9 @@ namespace Platformer {
     public class Platformer : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private readonly StateManager stateManager = new StateManager();
-        private readonly CommandQueue commandQueue = new CommandQueue();
+        private readonly StateManager stateManager;
+        private readonly CommandQueue commandQueue;
+        private readonly IResourceManager resourceManager;
 
         private readonly IWorld world;
 
@@ -34,7 +36,11 @@ namespace Platformer {
             graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
+
             world = new TwoDWorld(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            stateManager = new StateManager();
+            commandQueue = new CommandQueue();
+            resourceManager = new ResourceManager();
         }
 
         /// <summary>
@@ -46,6 +52,9 @@ namespace Platformer {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             base.Initialize();
+
+            resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("phase-2"));
+            resourceManager.AddTexture("player", Content.Load<Texture2D>("characters_7"));
         }
 
         /// <summary>
@@ -57,7 +66,7 @@ namespace Platformer {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
-            stateManager.Add("game", new GameState(world, spriteBatch, Content.Load<Texture2D>("characters_7"), Content.Load<Texture2D>("phase-2")));
+            stateManager.Add("game", new GameState(world, resourceManager, spriteBatch));
 
             stateManager.PushState("menu");
         }

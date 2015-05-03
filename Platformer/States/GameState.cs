@@ -6,6 +6,8 @@ using Gengine.State;
 using Gengine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Gengine.Map;
+using Gengine.Resources;
 
 namespace Platformer.States {
     class GameState : State {
@@ -21,19 +23,18 @@ namespace Platformer.States {
         //
         private List<ICollidable> collidableObjects = new List<ICollidable>();
 
-        public GameState(IWorld world, SpriteBatch spriteBatch, Texture2D playerTexture, Texture2D environmentTexture) : base(world) {
+        public GameState(IWorld world, IResourceManager resourceManager, SpriteBatch spriteBatch) : base(world) {
 
             /* Should bew moved to Init all of it ! */
 
             player = new PlayerEntity(
                 new InputComponent(), 
-                new VisualComponent(playerTexture), 
                 new MovementComponent(new Vector2(100, 100)), 
-                new AnimationComponent(new Rectangle(0,0,32,32)));
+                new AnimationComponent("player", new Rectangle(0,0,32,32)));
 
-            tileMap = new TileMap(environmentTexture);
+            tileMap = new TileMap("environmentTexture");
 
-            renderingSystem = new RenderingSystem(spriteBatch);
+            renderingSystem = new RenderingSystem(resourceManager, spriteBatch);
             collisionSystem = new CollisionSystem();
 
             collidableObjects = new List<ICollidable>();
