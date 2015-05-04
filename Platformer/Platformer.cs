@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 using Platformer.States;
 using Gengine.Resources;
 
@@ -23,6 +22,7 @@ namespace Platformer {
     public class Platformer : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        RenderTarget2D renderTarget;
         private readonly StateManager stateManager;
         private readonly CommandQueue commandQueue;
         private readonly IResourceManager resourceManager;
@@ -31,13 +31,15 @@ namespace Platformer {
 
         public Platformer()
             : base() {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 800;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 600;   // set this value to the desired height of your window
-            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
-            world = new TwoDWorld(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            graphics = new GraphicsDeviceManager(this);
+            //graphics.PreferredBackBufferWidth = 640;  // set this value to the desired width of your window
+            //graphics.PreferredBackBufferHeight = 360;   // set this value to the desired height of your window
+            
+
+
+            world = new TwoDWorld(640, 360);
             stateManager = new StateManager();
             commandQueue = new CommandQueue();
             resourceManager = new ResourceManager();
@@ -55,6 +57,7 @@ namespace Platformer {
 
             resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("phase-2"));
             resourceManager.AddTexture("player", Content.Load<Texture2D>("characters_7"));
+
         }
 
         /// <summary>
@@ -64,7 +67,12 @@ namespace Platformer {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
+            renderTarget = new RenderTarget2D(GraphicsDevice, 640, 360);
+            
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
             stateManager.Add("game", new GameState(world, resourceManager, spriteBatch));
 
@@ -101,13 +109,36 @@ namespace Platformer {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.Black);
+            DrawWithRenderTarget();
 
+            //DrawNormal();
+
+            base.Draw(gameTime);
+        }
+
+        private void DrawNormal() {
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             stateManager.Draw(spriteBatch);
             spriteBatch.End();
+        }
 
-            base.Draw(gameTime);
+        private void DrawWithRenderTarget() {
+            // Set the device to the render target
+            graphics.GraphicsDevice.SetRenderTarget(renderTarget);
+
+            graphics.GraphicsDevice.Clear(Color.Black);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            stateManager.Draw(spriteBatch);
+            spriteBatch.End();
+
+            // Reset the device to the back buffer
+            graphics.GraphicsDevice.SetRenderTarget(null);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+            spriteBatch.Draw((Texture2D)renderTarget, new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height), Color.White);
+            spriteBatch.End();
         }
     }
 }

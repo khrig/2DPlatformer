@@ -48,7 +48,8 @@ namespace Platformer.States {
         private void DrawCenteredString(SpriteBatch spriteBatch, string text, float y, Color color) {
             Vector2 strV = font.MeasureString(text);
             var pos = new Vector2(World.View.Center.X - (strV.Length() / 2), y);
-            spriteBatch.DrawString(font, text, pos, color);
+            
+             spriteBatch.DrawString(font, text, pos, color);
         }
 
         public override void HandleCommands(CommandQueue commandQueue) {
