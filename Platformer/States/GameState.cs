@@ -18,12 +18,17 @@ namespace Platformer.States {
         private readonly RenderingSystem renderingSystem;
         private readonly CollisionSystem collisionSystem;
 
+        private readonly IMapRepository mapRepository;
+
         // 
         // If we move creation of entities to a worl object it can hold all relevant lists like entities
         //
         private List<ICollidable> collidableObjects = new List<ICollidable>();
 
-        public GameState(IWorld world, IResourceManager resourceManager, SpriteBatch spriteBatch) : base(world) {
+        public GameState(IWorld world, IMapRepository mapRepository, IResourceManager resourceManager, SpriteBatch spriteBatch) : base(world) {
+            this.mapRepository = mapRepository;
+            tileMap = mapRepository.LoadMap("Maps\\room2.tmap");
+
 
             /* Should bew moved to Init all of it ! */
 
@@ -32,7 +37,7 @@ namespace Platformer.States {
                 new MovementComponent(new Vector2(100, 100)), 
                 new AnimationComponent("player", new Rectangle(0,0,32,32)));
 
-            tileMap = new TileMap("environmentTexture");
+            //tileMap = new TileMap("environmentTexture");
 
             renderingSystem = new RenderingSystem(resourceManager, spriteBatch);
             collisionSystem = new CollisionSystem();

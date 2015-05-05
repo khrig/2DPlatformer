@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Platformer.States;
 using Gengine.Resources;
+using Gengine.Map;
 
 #endregion
 
@@ -57,6 +58,7 @@ namespace Platformer {
 
             resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("phase-2"));
             resourceManager.AddTexture("player", Content.Load<Texture2D>("characters_7"));
+            resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("tiles32"));
 
         }
 
@@ -69,12 +71,12 @@ namespace Platformer {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             renderTarget = new RenderTarget2D(GraphicsDevice, 640, 360);
             
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
-            stateManager.Add("game", new GameState(world, resourceManager, spriteBatch));
+            stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
 
             stateManager.PushState("menu");
         }
@@ -111,16 +113,7 @@ namespace Platformer {
         protected override void Draw(GameTime gameTime) {
             DrawWithRenderTarget();
 
-            //DrawNormal();
-
             base.Draw(gameTime);
-        }
-
-        private void DrawNormal() {
-            GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
-            stateManager.Draw(spriteBatch);
-            spriteBatch.End();
         }
 
         private void DrawWithRenderTarget() {
