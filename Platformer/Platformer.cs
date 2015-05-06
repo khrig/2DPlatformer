@@ -30,17 +30,19 @@ namespace Platformer {
 
         private readonly IWorld world;
 
+        private int IngameWidth = 640;
+        private int IngameHeight = 360;
+
+        private int WindowHeight;
+        private int WindowWidth;
+
         public Platformer()
             : base() {
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
-            //graphics.PreferredBackBufferWidth = 640;  // set this value to the desired width of your window
-            //graphics.PreferredBackBufferHeight = 360;   // set this value to the desired height of your window
-            
 
-
-            world = new TwoDWorld(640, 360);
+            world = new TwoDWorld(IngameWidth, IngameHeight);
             stateManager = new StateManager();
             commandQueue = new CommandQueue();
             resourceManager = new ResourceManager();
@@ -69,11 +71,20 @@ namespace Platformer {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            graphics.IsFullScreen = true;
+            
+            // set the resolution to the monitor (for fullscreen)
+            //WindowWidth = graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            //WindowHeight = graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            //graphics.IsFullScreen = true;
+
+            // For window (debugging)
+            WindowWidth = graphics.PreferredBackBufferWidth = 1280;
+            WindowHeight = graphics.PreferredBackBufferHeight = 720;
+
             graphics.ApplyChanges();
-            renderTarget = new RenderTarget2D(GraphicsDevice, 640, 360);
+            
+            // Ingame resolution
+            renderTarget = new RenderTarget2D(GraphicsDevice, IngameWidth, IngameHeight);
             
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
             stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
@@ -130,7 +141,7 @@ namespace Platformer {
             graphics.GraphicsDevice.SetRenderTarget(null);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-            spriteBatch.Draw((Texture2D)renderTarget, new Rectangle(0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height), Color.White);
+            spriteBatch.Draw((Texture2D)renderTarget, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
             spriteBatch.End();
         }
     }
