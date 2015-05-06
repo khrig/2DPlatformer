@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollisionHandlingPlayer.cs" />
     <Compile Include="Platformer.cs" />
     <Compile Include="PlayerEntity.cs" />
     <Compile Include="Program.cs" />
