@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Gengine.Map;
 using Gengine.Resources;
 
-namespace Platformer.States {
+namespace _2DPlatformer.States {
     class GameState : State {
         private readonly PlayerEntity player;
         private readonly TileMap tileMap;

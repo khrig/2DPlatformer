@@ -1,24 +1,17 @@
-﻿#region Using Statements
-using System;
-using System.Collections.Generic;
+﻿using _2DPlatformer.States;
 using Gengine;
 using Gengine.Commands;
 using Gengine.Input;
+using Gengine.Map;
+using Gengine.Resources;
 using Gengine.State;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Platformer.States;
-using Gengine.Resources;
-using Gengine.Map;
 
-#endregion
-
-namespace Platformer {
+namespace _2DPlatformer {
     /// <summary>
-    /// This is the main type for your game
+    /// This is the main type for your game.
     /// </summary>
     public class Platformer : Game {
         GraphicsDeviceManager graphics;
@@ -58,9 +51,9 @@ namespace Platformer {
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("phase-2"));
-            resourceManager.AddTexture("player", Content.Load<Texture2D>("characters_7"));
-            resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("tiles32"));
+            resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
+            resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
+            resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("Sprites/tiles32"));
 
         }
 
@@ -71,7 +64,7 @@ namespace Platformer {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             // set the resolution to the monitor (for fullscreen)
             //WindowWidth = graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
             //WindowHeight = graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
@@ -82,10 +75,10 @@ namespace Platformer {
             WindowHeight = graphics.PreferredBackBufferHeight = 720;
 
             graphics.ApplyChanges();
-            
+
             // Ingame resolution
             renderTarget = new RenderTarget2D(GraphicsDevice, IngameWidth, IngameHeight);
-            
+
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
             stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
 

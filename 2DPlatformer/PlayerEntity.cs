@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 
-namespace Platformer {
+namespace _2DPlatformer {
     class PlayerEntity : Entity, IRenderable, ICollidable {
         public PlayerEntity(InputComponent input, MovementComponent position, AnimationComponent animation) {
             // Order matters

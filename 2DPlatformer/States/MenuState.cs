@@ -5,7 +5,7 @@ using Gengine.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Platformer.States {
+namespace _2DPlatformer.States {
     class MenuState : State {
         private readonly List<string> options = new List<string>();
         private int selectedOption;
