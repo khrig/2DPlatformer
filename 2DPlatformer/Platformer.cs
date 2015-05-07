@@ -105,7 +105,7 @@ namespace _2DPlatformer {
 
             InputManager.Instance.HandleInput(commandQueue);
             stateManager.HandleCommands(commandQueue);
-            stateManager.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            stateManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             base.Update(gameTime);
         }

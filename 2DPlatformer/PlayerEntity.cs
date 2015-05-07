@@ -41,5 +41,9 @@ namespace _2DPlatformer {
                 return boundingBox;
             }
         }
+
+        public Vector2 RenderPosition {
+            get { return Position; }
+        }
     }
 }
