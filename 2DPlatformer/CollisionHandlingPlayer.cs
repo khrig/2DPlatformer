@@ -11,10 +11,10 @@ using System.Text;
 namespace _Platformer2D {
     public class CollisionHandlingPlayer : IRenderable {
         private const float Gravity = 300f;
-        private const float ACCEL = 900f;
+        private const float ACCEL = 600f;
         private const float FRICTION = 300f;
         private const float JUMP = 10000f;
-        private const float MAXDX = 300f;
+        private const float MAXDX = 200f;
         private const float MAXDY = 1200f;
 
         private Vector2 position;
