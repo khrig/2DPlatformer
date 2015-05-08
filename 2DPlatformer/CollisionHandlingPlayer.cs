@@ -118,13 +118,13 @@ namespace _Platformer2D {
 
             if (Velocity.X > 0.0f) {
                 if (tileRight.IsSolid && !tile.IsSolid && box.Intersects(tileRight.BoundingBox)
-                    || (tileBottomRight.IsSolid && box.Intersects(tileBottomRight.BoundingBox) && Velocity.Y != 0)) {
+                    || (tileBottomRight.IsSolid && !tileBottomLeft.IsSolid && box.Intersects(tileBottomRight.BoundingBox) && Velocity.Y != 0)) {
                     newPos.X = (tileRight.Position.X * 32) - box.Width;
                     Velocity.X = 0;
                 }
             } else if (Velocity.X < 0.0f) {
                 if (tile.IsSolid && !tileRight.IsSolid && box.Intersects(tile.BoundingBox)
-                    || (tileBottomLeft.IsSolid && box.Intersects(tileBottomLeft.BoundingBox) && Velocity.Y != 0)) {
+                    || (tileBottomLeft.IsSolid && !tileBottomRight.IsSolid && box.Intersects(tileBottomLeft.BoundingBox) && Velocity.Y != 0)) {
                     newPos.X = (tile.Position.X * 32) + 32;
                     Velocity.X = 0;
                 }
