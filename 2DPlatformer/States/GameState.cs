@@ -13,7 +13,7 @@ using _Platformer2D;
 namespace _2DPlatformer.States {
     class GameState : State {
         //private readonly PlayerEntity player;
-        private CollisionHandlingPlayer player;
+        private IPlayer player;
         private readonly TileMap tileMap;
 
         // Should not be here probably
@@ -68,12 +68,13 @@ namespace _2DPlatformer.States {
         }
 
         public override void Init() {
-            player = new CollisionHandlingPlayer(tileMap, new Vector2(100, 100));
+            //player = new CollisionHandlingPlayer(new Vector2(100, 100), tileMap);
+            player = new PreCheckingPlayer(new Vector2(100, 100), tileMap);
         }
 
         public override bool Draw(SpriteBatch spriteBatch) {
             renderingSystem.Draw(tileMap.RenderableTiles);
-            renderingSystem.Draw(new List<IRenderable> {player});
+            renderingSystem.Draw(player);
             return false;
         }
     }

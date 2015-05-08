@@ -39,8 +39,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CollisionHandlingPlayer.cs" />
+    <Compile Include="IPlayer.cs" />
     <Compile Include="Platformer.cs" />
     <Compile Include="PlayerEntity.cs" />
+    <Compile Include="PreCheckingPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\GameState.cs" />

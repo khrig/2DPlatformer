@@ -1,4 +1,5 @@
-﻿using Gengine.Entities;
+﻿using _2DPlatformer;
+using Gengine.Entities;
 using Gengine.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 
 namespace _Platformer2D {
-    public class CollisionHandlingPlayer : IRenderable {
+    public class CollisionHandlingPlayer : IPlayer {
         private const float Gravity = 300f;
         private const float ACCEL = 600f;
         private const float FRICTION = 300f;
@@ -44,7 +45,7 @@ namespace _Platformer2D {
 
         bool jumping = true;
 
-        public CollisionHandlingPlayer(TileMap tileMap, Vector2 position) {
+        public CollisionHandlingPlayer(Vector2 position, TileMap tileMap) {
             Position = position;
             Velocity = Vector2.Zero;
             this.tileMap = tileMap;
@@ -95,7 +96,6 @@ namespace _Platformer2D {
                 }
 
                 Velocity.X = MathHelper.Clamp(Velocity.X, -MAXDX, MAXDX);
-
 
                 Move(deltaTime);
             
