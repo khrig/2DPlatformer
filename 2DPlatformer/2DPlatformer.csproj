@@ -73,6 +73,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\04b_03_10.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\04b_03_24.xnb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Maps\room2.tmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

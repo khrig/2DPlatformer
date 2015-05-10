@@ -14,7 +14,6 @@ namespace _2DPlatformer {
             this.tileMap = tileMap;
             sourceRectangle = new Rectangle(0, 0, 32, 32);
             isJumping = true;
-            velocity.Y = 100;
             moveBoundingBox = new Rectangle(0, 0, 32, 32);
         }
 

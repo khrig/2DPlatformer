@@ -52,3 +52,9 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/monolight12.spritefont
 
+#begin Fonts/04b_03.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Fonts/04b_03.spritefont
+

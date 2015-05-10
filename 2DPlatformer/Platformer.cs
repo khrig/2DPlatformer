@@ -5,6 +5,7 @@ using Gengine.Input;
 using Gengine.Map;
 using Gengine.Resources;
 using Gengine.State;
+using Gengine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,11 +25,7 @@ namespace _2DPlatformer {
 
         private readonly IWorld world;
 
-        // FPS
-        SpriteFont font;
-        int frameRate = 0;
-        int frameCounter = 0;
-        TimeSpan elapsedTime = TimeSpan.Zero;
+        FrameCounter frameCounter;
 
         private int IngameWidth = 640;
         private int IngameHeight = 360;
@@ -58,7 +55,7 @@ namespace _2DPlatformer {
             // TODO: Add your initialization logic here
             base.Initialize();
 
-            font = Content.Load<SpriteFont>("monolight12");
+            frameCounter = new FrameCounter(Content.Load<SpriteFont>("04b_03_10"), new Vector2(10,10));
 
             resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
             resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
@@ -88,7 +85,7 @@ namespace _2DPlatformer {
             // Ingame resolution
             renderTarget = new RenderTarget2D(GraphicsDevice, IngameWidth, IngameHeight);
 
-            stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("monolight12")));
+            stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("04b_03_24")));
             stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
 
             stateManager.PushState("menu");
@@ -116,14 +113,8 @@ namespace _2DPlatformer {
             stateManager.HandleCommands(commandQueue);
             stateManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            elapsedTime += gameTime.ElapsedGameTime;
-
-            if (elapsedTime > TimeSpan.FromSeconds(1)) {
-                elapsedTime -= TimeSpan.FromSeconds(1);
-                frameRate = frameCounter;
-                frameCounter = 0;
-            }
-
+            frameCounter.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
@@ -134,12 +125,7 @@ namespace _2DPlatformer {
         protected override void Draw(GameTime gameTime) {
             DrawWithRenderTarget();
 
-            frameCounter++;
-            string fps = string.Format("fps: {0}", frameRate);
-            spriteBatch.Begin();
-            spriteBatch.DrawString(font, fps, new Vector2(10, 10), Color.Black);
-            spriteBatch.DrawString(font, fps, new Vector2(9, 9), Color.White);
-            spriteBatch.End();
+            frameCounter.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
