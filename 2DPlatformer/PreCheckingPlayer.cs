@@ -19,13 +19,13 @@ namespace _2DPlatformer {
 
         private readonly TileMap tileMap;
 
-        private const float MoveAcceleration = 13000.0f;
+        private const float MoveAcceleration = 12500.0f;
         private const float MaxMoveSpeed = 1750.0f;
         private const float GroundDragFactor = 0.48f;
-        private const float AirDragFactor = 0.58f;
+        private const float AirDragFactor = 0.51f;
 
-        private const float GRAVITY = 400f;
-        private const float JUMP = 250f;
+        private const float GRAVITY = 1400f;
+        private const float JUMP = 500f;
 
         public string TextureName {
             get { return "player"; }
@@ -124,6 +124,7 @@ namespace _2DPlatformer {
 
             Rectangle boundingBox = new Rectangle(newX, newY, 32, 32);
             isOnGround = false;
+            isJumping = true;
 
             // Move X first
             if (velocity.X > 0) {
