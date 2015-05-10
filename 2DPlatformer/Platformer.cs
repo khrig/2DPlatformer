@@ -8,6 +8,7 @@ using Gengine.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace _2DPlatformer {
     /// <summary>
@@ -22,6 +23,12 @@ namespace _2DPlatformer {
         private readonly IResourceManager resourceManager;
 
         private readonly IWorld world;
+
+        // FPS
+        SpriteFont font;
+        int frameRate = 0;
+        int frameCounter = 0;
+        TimeSpan elapsedTime = TimeSpan.Zero;
 
         private int IngameWidth = 640;
         private int IngameHeight = 360;
@@ -50,6 +57,8 @@ namespace _2DPlatformer {
         protected override void Initialize() {
             // TODO: Add your initialization logic here
             base.Initialize();
+
+            font = Content.Load<SpriteFont>("monolight12");
 
             resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
             resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
@@ -107,6 +116,14 @@ namespace _2DPlatformer {
             stateManager.HandleCommands(commandQueue);
             stateManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
+            elapsedTime += gameTime.ElapsedGameTime;
+
+            if (elapsedTime > TimeSpan.FromSeconds(1)) {
+                elapsedTime -= TimeSpan.FromSeconds(1);
+                frameRate = frameCounter;
+                frameCounter = 0;
+            }
+
             base.Update(gameTime);
         }
 
@@ -116,6 +133,13 @@ namespace _2DPlatformer {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             DrawWithRenderTarget();
+
+            frameCounter++;
+            string fps = string.Format("fps: {0}", frameRate);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, fps, new Vector2(10, 10), Color.Black);
+            spriteBatch.DrawString(font, fps, new Vector2(9, 9), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
