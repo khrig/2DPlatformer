@@ -15,6 +15,7 @@ namespace _2DPlatformer {
             sourceRectangle = new Rectangle(0, 0, 32, 32);
             isJumping = true;
             velocity.Y = 100;
+            moveBoundingBox = new Rectangle(0, 0, 32, 32);
         }
 
         private readonly TileMap tileMap;
@@ -91,8 +92,6 @@ namespace _2DPlatformer {
         }
 
         private void ApplyPhysics(float dt) {
-            Vector2 previousPosition = Position;
-
             // Base velocity is a combination of horizontal movement control and
             // acceleration downward due to gravity.
             velocity.X += movement * MoveAcceleration * dt;
@@ -115,53 +114,55 @@ namespace _2DPlatformer {
             // Prevent the player from running faster than his top speed.            
             velocity.X = MathHelper.Clamp(velocity.X, -MaxMoveSpeed, MaxMoveSpeed);
         }
-
+        
+        Rectangle moveBoundingBox;
         private void Move(float dt) {
             int directionX = Math.Sign(velocity.X);
             int directionY = Math.Sign(velocity.Y);
             int newX = (int)Math.Floor(position.X); // round down if float?
             int newY = (int)Math.Floor(position.Y); // round down if float?
 
-            Rectangle boundingBox = new Rectangle(newX, newY, 32, 32);
+            moveBoundingBox.X = newX;
+            moveBoundingBox.Y = newY;
             isOnGround = false;
             isJumping = true;
 
             // Move X first
             if (velocity.X > 0) {
                 for (int x = 1; x <= Math.Abs(velocity.X * dt); x++) {
-                    boundingBox.X += directionX;
-                    Tile t1 = tileMap.PositionToTile(boundingBox.Right, boundingBox.Top);
-                    Tile t2 = tileMap.PositionToTile(boundingBox.Right, boundingBox.Bottom);
-                    if (t1.IsSolid && t1.BoundingBox.Intersects(boundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(boundingBox)) {
+                    moveBoundingBox.X += directionX;
+                    Tile t1 = tileMap.PositionToTile(moveBoundingBox.Right, moveBoundingBox.Top);
+                    Tile t2 = tileMap.PositionToTile(moveBoundingBox.Right, moveBoundingBox.Bottom);
+                    if (t1.IsSolid && t1.BoundingBox.Intersects(moveBoundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(moveBoundingBox)) {
                         // Add slope handling
                         // Reset velocity x if hit
                         break;
                     }
-                    newX = boundingBox.X;
+                    newX = moveBoundingBox.X;
                 }
             }
             if (velocity.X < 0) {
                 for (int x = 1; x <= Math.Abs(velocity.X * dt); x++) {
-                    boundingBox.X += directionX;
-                    Tile t1 = tileMap.PositionToTile(boundingBox.Left, boundingBox.Top);
-                    Tile t2 = tileMap.PositionToTile(boundingBox.Left, boundingBox.Bottom);
-                    if (t1.IsSolid && t1.BoundingBox.Intersects(boundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(boundingBox)) {
+                    moveBoundingBox.X += directionX;
+                    Tile t1 = tileMap.PositionToTile(moveBoundingBox.Left, moveBoundingBox.Top);
+                    Tile t2 = tileMap.PositionToTile(moveBoundingBox.Left, moveBoundingBox.Bottom);
+                    if (t1.IsSolid && t1.BoundingBox.Intersects(moveBoundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(moveBoundingBox)) {
                         // Add slope handling
                         // Reset velocity x if hit
                         break;
                     }
-                    newX = boundingBox.X;
+                    newX = moveBoundingBox.X;
                 }
             }
 
             // Move Y
             if (velocity.Y > 0) {
                 for (int y = 1; y < Math.Abs(velocity.Y * dt); y++) {
-                    boundingBox.Y += directionY;
+                    moveBoundingBox.Y += directionY;
                     // Bottom tiles
-                    Tile t1 = tileMap.PositionToTile(newX, boundingBox.Bottom);
-                    Tile t2 = tileMap.PositionToTile(newX + boundingBox.Width - 1, boundingBox.Bottom);
-                    if (t1.IsSolid && t1.BoundingBox.Intersects(boundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(boundingBox)) {
+                    Tile t1 = tileMap.PositionToTile(newX, moveBoundingBox.Bottom);
+                    Tile t2 = tileMap.PositionToTile(newX + moveBoundingBox.Width - 1, moveBoundingBox.Bottom);
+                    if (t1.IsSolid && t1.BoundingBox.Intersects(moveBoundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(moveBoundingBox)) {
                         // Add slope handling
                         // Reset velocity y if hit on bottom
                         // directionY == 1 ? Velocity.Y = 0
@@ -169,35 +170,29 @@ namespace _2DPlatformer {
                         isJumping = false;
                         break;
                     }
-                    newY = boundingBox.Y;
+                    newY = moveBoundingBox.Y;
                 }
             }
             if (velocity.Y < 0) {
                 for (int y = 1; y < Math.Abs(velocity.Y * dt); y++) {
-                    boundingBox.Y += directionY;
+                    moveBoundingBox.Y += directionY;
                     // Bottom tiles
-                    Tile t1 = tileMap.PositionToTile(newX, boundingBox.Top);
-                    Tile t2 = tileMap.PositionToTile(newX + boundingBox.Width - 1, boundingBox.Top);
-                    if (t1.IsSolid && t1.BoundingBox.Intersects(boundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(boundingBox)) {
+                    Tile t1 = tileMap.PositionToTile(newX, moveBoundingBox.Top);
+                    Tile t2 = tileMap.PositionToTile(newX + moveBoundingBox.Width - 1, moveBoundingBox.Top);
+                    if (t1.IsSolid && t1.BoundingBox.Intersects(moveBoundingBox) || t2.IsSolid && t2.BoundingBox.Intersects(moveBoundingBox)) {
                         // Add slope handling
                         // Reset velocity y if hit on bottom
                         // directionY == 1 ? Velocity.Y = 0
                         //isJumping = false;
                         break;
                     }
-                    newY = boundingBox.Y;
+                    newY = moveBoundingBox.Y;
                 }
             }
             
             // Update current position
             position.X = newX;
             position.Y = newY;
-
-            /*
-            // Apply velocity.
-            Position += velocity * dt;
-            Position = new Vector2((float)Math.Round(Position.X), (float)Math.Round(Position.Y));
-             * */
         }
     }
 }
