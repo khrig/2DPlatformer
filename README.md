@@ -23,7 +23,7 @@ TODO:
 * Ramps (for the map)
 * TileEditor needs to set that the tile is sloped and what direction, also what kind of slope (start with 45 degrees)
 * TileEditor - Layer type (which is solid)
- - Fixed layer types 
+ - Fixed layer types (http://www.gamedev.net/page/resources/_/technical/game-programming/procedural-level-generation-for-a-2d-platformer-r3794)
    - Background ? multiple images
    - Background objects
    - Collision
