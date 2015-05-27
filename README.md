@@ -31,3 +31,11 @@ TODO:
 * Smaller hitbox for player (then sprite size)
 * Backgrounds (Parallax support)
 * Edit backgrounds in TileEditor
+* Player shoot
+* Enemies
+* Player dies if hitting enemy (first version)
+* Enemy dies if hit two times (first version)
+* Player wins if reach end (collision with specific tile)
+* Game over state
+   - With menu to exit or go to main menu
+* Pause state
