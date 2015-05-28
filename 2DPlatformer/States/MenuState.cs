@@ -4,15 +4,16 @@ using Gengine.Commands;
 using Gengine.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using _2DPlatformer.Rendering;
 
 namespace _2DPlatformer.States {
     class MenuState : State {
         private readonly List<string> options = new List<string>();
         private int selectedOption;
-        private readonly SpriteFont font;
+        private readonly TextRenderer textRenderer;
 
         public MenuState(IWorld world, SpriteFont font) : base(world) {
-            this.font = font;
+            textRenderer = new TextRenderer(world, font);
         }
 
         public override bool Update(float deltaTime) {
@@ -34,22 +35,15 @@ namespace _2DPlatformer.States {
 
         private void DrawTitle(SpriteBatch spriteBatch) {
             string title = "PLATFORM YEAH";
-            DrawCenteredString(spriteBatch, title, World.View.Center.Y - 50, Color.Green);
+            textRenderer.DrawCenteredString(spriteBatch, title, World.View.Center.Y - 50, Color.Green);
         }
 
         private void DrawMenuOptions(SpriteBatch spriteBatch) {
             float y = World.View.Center.Y;
             for (int i = 0; i < options.Count; i++) {
-                DrawCenteredString(spriteBatch, options[i], y, i == selectedOption ? Color.LightGreen : Color.White);
+                textRenderer.DrawCenteredString(spriteBatch, options[i], y, i == selectedOption ? Color.LightGreen : Color.White);
                 y += 40;
             }
-        }
-
-        private void DrawCenteredString(SpriteBatch spriteBatch, string text, float y, Color color) {
-            Vector2 strV = font.MeasureString(text);
-            var pos = new Vector2(World.View.Center.X - (strV.Length() / 2), y);
-            
-             spriteBatch.DrawString(font, text, pos, color);
         }
 
         public override void HandleCommands(CommandQueue commandQueue) {

@@ -87,6 +87,7 @@ namespace _2DPlatformer {
 
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("04b_03_24")));
             stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
+            stateManager.Add("pause", new PauseState(world, Content.Load<SpriteFont>("04b_03_24")));
 
             stateManager.PushState("menu");
         }

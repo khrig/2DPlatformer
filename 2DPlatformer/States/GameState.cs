@@ -59,9 +59,13 @@ namespace _2DPlatformer.States {
 
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
-                if (commandQueue.GetNext() == "Escape") {
+                var command = commandQueue.GetNext();
+                if (command == "Escape") {
                     StateManager.PopState();
                     StateManager.PushState("menu");
+                    return;
+                } else if (command == "Pause") {
+                    StateManager.PushState("pause");
                     return;
                 }
             }
