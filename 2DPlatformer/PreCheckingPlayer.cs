@@ -183,6 +183,7 @@ namespace _2DPlatformer {
                         // Reset velocity y if hit on bottom
                         // directionY == 1 ? Velocity.Y = 0
                         //isJumping = false;
+                        velocity.Y = 0;
                         break;
                     }
                     newY = moveBoundingBox.Y;
