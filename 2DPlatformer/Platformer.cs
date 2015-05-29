@@ -21,6 +21,7 @@ namespace _2DPlatformer {
         RenderTarget2D renderTarget;
         private readonly StateManager stateManager;
         private readonly CommandQueue commandQueue;
+        private readonly ICommandFactory commandFactory;
         private readonly IResourceManager resourceManager;
 
         private readonly IWorld world;
@@ -42,6 +43,7 @@ namespace _2DPlatformer {
             world = new TwoDWorld(IngameWidth, IngameHeight);
             stateManager = new StateManager();
             commandQueue = new CommandQueue();
+            commandFactory = new PlatformerCommandFactory();
             resourceManager = new ResourceManager();
         }
 
@@ -110,7 +112,7 @@ namespace _2DPlatformer {
             if (stateManager.IsEmpty())
                 Exit();
 
-            InputManager.Instance.HandleInput(commandQueue);
+            InputManager.Instance.HandleInput(commandQueue, commandFactory);
             stateManager.HandleCommands(commandQueue);
             stateManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 

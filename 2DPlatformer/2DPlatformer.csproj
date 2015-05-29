@@ -41,6 +41,7 @@
     <Compile Include="CollisionHandlingPlayer.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Platformer.cs" />
+    <Compile Include="PlatformerCommandFactory.cs" />
     <Compile Include="PlayerEntity.cs" />
     <Compile Include="PreCheckingPlayer.cs" />
     <Compile Include="Program.cs" />

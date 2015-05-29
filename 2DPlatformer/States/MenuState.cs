@@ -48,19 +48,19 @@ namespace _2DPlatformer.States {
 
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
-                string command = commandQueue.GetNext();
+                var command = commandQueue.GetNext();
                 HandleCommand(command);
             }
         }
 
-        private void HandleCommand(string command) {
-            if (command == "Up")
+        private void HandleCommand(ICommand command) {
+            if (command.Name == "Up")
                 MoveUp();
-            else if (command == "Down")
+            else if (command.Name == "Down")
                 MoveDown();
-            else if (command == "Escape")
+            else if (command.Name == "Escape")
                 StateManager.PopState();
-            else if (command == "Enter") {
+            else if (command.Name == "Enter") {
                 if (options[selectedOption] == "Start") {
                     StateManager.PopState();
                     StateManager.PushState("game");

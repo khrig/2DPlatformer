@@ -29,13 +29,13 @@ namespace _2DPlatformer.States {
 
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
-                string command = commandQueue.GetNext();
+                var command = commandQueue.GetNext();
                 HandleCommand(command);
             }
         }
 
-        private void HandleCommand(string command) {
-            if (command == "Escape")
+        private void HandleCommand(ICommand command) {
+            if (command.Name == "Escape")
                 StateManager.PopState();
         }
 

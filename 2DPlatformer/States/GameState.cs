@@ -60,11 +60,11 @@ namespace _2DPlatformer.States {
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
                 var command = commandQueue.GetNext();
-                if (command == "Escape") {
+                if (command.Name == "Escape") {
                     StateManager.PopState();
                     StateManager.PushState("menu");
                     return;
-                } else if (command == "Pause") {
+                } else if (command.Name == "Pause") {
                     StateManager.PushState("pause");
                     return;
                 }
