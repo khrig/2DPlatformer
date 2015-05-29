@@ -25,8 +25,6 @@ namespace _2DPlatformer.States {
         // 
         // If we move creation of entities to a worl object it can hold all relevant lists like entities
         //
-        private List<ICollidable> collidableObjects = new List<ICollidable>();
-
         public GameState(IWorld world, IMapRepository mapRepository, IResourceManager resourceManager, SpriteBatch spriteBatch) : base(world) {
             this.mapRepository = mapRepository;
             tileMap = mapRepository.LoadMap("Maps\\room2.tmap");
