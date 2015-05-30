@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="CollisionHandlingPlayer.cs" />
     <Compile Include="IPlayer.cs" />
+    <Compile Include="MenuOption.cs" />
     <Compile Include="Platformer.cs" />
     <Compile Include="PlatformerCommandFactory.cs" />
     <Compile Include="PlayerEntity.cs" />
@@ -82,6 +83,9 @@
     <Content Include="Content\04b_03_24.xnb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Maps\largeroom.tmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Maps\room2.tmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

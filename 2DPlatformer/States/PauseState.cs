@@ -1,6 +1,7 @@
 ﻿using _2DPlatformer.Rendering;
 using Gengine;
 using Gengine.Commands;
+using Gengine.Entities;
 using Gengine.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -40,6 +41,10 @@ namespace _2DPlatformer.States {
         }
 
         public override void Init() {
+        }
+
+        public override IEnumerable<IRenderable> GetRenderTargets() {
+            return Enumerable.Empty<IRenderable>();
         }
     }
 }

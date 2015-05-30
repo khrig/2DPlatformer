@@ -17,7 +17,6 @@ namespace _2DPlatformer.States {
         private readonly TileMap tileMap;
 
         // Should not be here probably
-        private readonly RenderingSystem renderingSystem;
         private readonly CollisionSystem collisionSystem;
 
         private readonly IMapRepository mapRepository;
@@ -27,7 +26,7 @@ namespace _2DPlatformer.States {
         //
         public GameState(IWorld world, IMapRepository mapRepository, IResourceManager resourceManager, SpriteBatch spriteBatch) : base(world) {
             this.mapRepository = mapRepository;
-            tileMap = mapRepository.LoadMap("Maps\\room2.tmap");
+            tileMap = mapRepository.LoadMap("Maps\\largeroom.tmap");
 
 
             //player = new PlayerEntity(
@@ -37,7 +36,6 @@ namespace _2DPlatformer.States {
 
             //tileMap = new TileMap("environmentTexture");
 
-            renderingSystem = new RenderingSystem(resourceManager, spriteBatch);
             collisionSystem = new CollisionSystem();
 
             //collidableObjects = new List<ICollidable>();
@@ -75,9 +73,17 @@ namespace _2DPlatformer.States {
         }
 
         public override bool Draw(SpriteBatch spriteBatch) {
-            renderingSystem.Draw(tileMap.RenderableTiles);
-            renderingSystem.Draw(player);
+//            renderingSystem.Draw(tileMap.RenderableTiles);
+ //           renderingSystem.Draw(player);
             return false;
+        }
+
+        private List<IRenderable> _renderTargets;
+        public override IEnumerable<IRenderable> GetRenderTargets() {
+            _renderTargets = new List<IRenderable>();
+            _renderTargets.AddRange(tileMap.RenderableTiles);
+            _renderTargets.Add(player);
+            return _renderTargets;
         }
     }
 }

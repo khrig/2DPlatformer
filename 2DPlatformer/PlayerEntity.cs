@@ -16,6 +16,7 @@ namespace _2DPlatformer {
             boundingBox.Height = GetComponent<AnimationComponent>().SourceRectangle.Height;
         }
 
+        public RenderType Type { get { return RenderType.Sprite; } }
         public string TextureName { get { return GetComponent<AnimationComponent>().TextureName; } }
         public Vector2 Position { get { return GetComponent<MovementComponent>().Position; } }
         public Rectangle SourceRectangle { get { return GetComponent<AnimationComponent>().SourceRectangle; } }
@@ -44,6 +45,10 @@ namespace _2DPlatformer {
 
         public Vector2 RenderPosition {
             get { return Position; }
+        }
+
+        public string FontName {
+            get { throw new System.NotImplementedException(); }
         }
     }
 }

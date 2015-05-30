@@ -5,6 +5,8 @@ using Gengine.State;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using _2DPlatformer.Rendering;
+using Gengine.Entities;
+using System.Linq;
 
 namespace _2DPlatformer.States {
     class MenuState : State {
@@ -24,6 +26,10 @@ namespace _2DPlatformer.States {
             DrawTitle(spriteBatch);
             DrawMenuOptions(spriteBatch);
             return false;
+        }
+
+        public override IEnumerable<IRenderable> GetRenderTargets() {
+            return Enumerable.Empty<IRenderable>();
         }
 
         public override void Init() {

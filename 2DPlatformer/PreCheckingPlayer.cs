@@ -27,10 +27,13 @@ namespace _2DPlatformer {
         private const float GRAVITY = 1400f;
         private const float JUMP = 500f;
 
+        public RenderType Type { get { return RenderType.Sprite; } }
         public string TextureName {
             get { return "player"; }
         }
-
+        public string FontName {
+            get { return "player"; }
+        }
         public Vector2 RenderPosition {
             get { return Position; }
         }

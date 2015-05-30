@@ -31,10 +31,13 @@ namespace _Platformer2D {
         }
         
         private Vector2 Velocity;
-
         private TileMap tileMap;
 
+        public RenderType Type { get { return RenderType.Sprite; } }
         public string TextureName {
+            get { return "player"; }
+        }
+        public string FontName {
             get { return "player"; }
         }
 

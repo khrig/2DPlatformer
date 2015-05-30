@@ -5,6 +5,7 @@ using Gengine.Input;
 using Gengine.Map;
 using Gengine.Resources;
 using Gengine.State;
+using Gengine.Systems;
 using Gengine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,9 +17,10 @@ namespace _2DPlatformer {
     /// This is the main type for your game.
     /// </summary>
     public class Platformer : Game {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        RenderTarget2D renderTarget;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private RenderTarget2D renderTarget;
+        private RenderingSystem renderingSystem;
         private readonly StateManager stateManager;
         private readonly CommandQueue commandQueue;
         private readonly ICommandFactory commandFactory;
@@ -87,6 +89,8 @@ namespace _2DPlatformer {
             // Ingame resolution
             renderTarget = new RenderTarget2D(GraphicsDevice, IngameWidth, IngameHeight);
 
+            renderingSystem = new RenderingSystem(resourceManager, spriteBatch, renderTarget, WindowWidth, WindowHeight);
+
             stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("04b_03_24")));
             stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
             stateManager.Add("pause", new PauseState(world, Content.Load<SpriteFont>("04b_03_24")));
@@ -126,29 +130,29 @@ namespace _2DPlatformer {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            DrawWithRenderTarget();
+            renderingSystem.DrawWithRenderTarget(graphics, stateManager.GetRenderTargets());
+            //DrawWithRenderTarget();
 
             frameCounter.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
 
-        private void DrawWithRenderTarget() {
-            // Set the device to the render target
-            graphics.GraphicsDevice.SetRenderTarget(renderTarget);
+        //private void DrawWithRenderTarget() {
+        //    // Set the device to the render target
+        //    graphics.GraphicsDevice.SetRenderTarget(renderTarget);
+        //    graphics.GraphicsDevice.Clear(Color.Black);
 
-            graphics.GraphicsDevice.Clear(Color.Black);
+        //    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+        //    stateManager.Draw(spriteBatch);
+        //    spriteBatch.End();
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-            stateManager.Draw(spriteBatch);
-            spriteBatch.End();
+        //    // Reset the device to the back buffer
+        //    graphics.GraphicsDevice.SetRenderTarget(null);
 
-            // Reset the device to the back buffer
-            graphics.GraphicsDevice.SetRenderTarget(null);
-
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-            spriteBatch.Draw((Texture2D)renderTarget, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
-            spriteBatch.End();
-        }
+        //    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+        //    spriteBatch.Draw((Texture2D)renderTarget, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
+        //    spriteBatch.End();
+        //}
     }
 }
