@@ -6,11 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace _2DPlatformer.States {
     public class GameState : State {
+        private readonly IMapRepository _mapRepository;
         private IPlayer _player;
-        private readonly TileMap _tileMap;
+        private TileMap _tileMap;
 
         public GameState(IWorld world, IMapRepository mapRepository) : base(world) {
-            _tileMap = mapRepository.LoadMap("Maps\\largeroom.tmap");
+            _mapRepository = mapRepository;
         }
 
         public override bool Update(float deltaTime) {
@@ -34,6 +35,7 @@ namespace _2DPlatformer.States {
         }
 
         public override void Init() {
+            _tileMap = _mapRepository.LoadMap("Maps\\largeroom.tmap");
             //player = new CollisionHandlingPlayer(new Vector2(100, 100), tileMap);
             _player = new PreCheckingPlayer(new Vector2(100, 100), _tileMap);
             RegisterRenderTarget(_tileMap.RenderableTiles);
@@ -43,6 +45,8 @@ namespace _2DPlatformer.States {
         public override void Unload() {
             UnregisterRenderTarget(_tileMap.RenderableTiles);
             UnregisterRenderTarget(_player);
+            _player = null;
+            _tileMap = null;
         }
     }
 }

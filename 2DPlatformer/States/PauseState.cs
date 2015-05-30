@@ -29,13 +29,13 @@ namespace _2DPlatformer.States {
         }
 
         public override void Init() {
-            _title.Clear();
             _title.Add(new MenuOption("text", "PAUSED", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
             RegisterRenderTarget(_title);
         }
 
         public override void Unload() {
-            
+            UnregisterRenderTarget(_title);
+            _title.Clear();
         }
     }
 }

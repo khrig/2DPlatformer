@@ -24,11 +24,8 @@ namespace _2DPlatformer.States {
         }
         
         public override void Init() {
-            _options.Clear();
             _options.Add(new MenuOption("text", "Start", Color.White, new Vector2(World.View.Center.X - 20, World.View.Center.Y)));
             _options.Add(new MenuOption("text", "Exit", Color.White, new Vector2(World.View.Center.X - 15, World.View.Center.Y + 40)));
-            _selectedOption = 0;
-            _title.Clear();
             _title.Add(new MenuOption("text", "PLATFORM YEAH", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
             RegisterRenderTarget(_options.Union(_title));
         }
@@ -79,6 +76,9 @@ namespace _2DPlatformer.States {
 
         public override void Unload() {
             UnregisterRenderTarget(_options.Union(_title));
+            _options.Clear();
+            _title.Clear();
+            _selectedOption = 0;
         }
     }
 }
