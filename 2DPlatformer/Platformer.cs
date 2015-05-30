@@ -72,9 +72,9 @@ namespace _2DPlatformer {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // set the resolution to the monitor (for fullscreen)
-            //WindowWidth = graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
-            //WindowHeight = graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
-            //graphics.IsFullScreen = true;
+            //_windowWidth = _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            //_windowHeight = _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            //_graphics.IsFullScreen = true;
 
             // For window (debugging)
             _windowWidth = _graphics.PreferredBackBufferWidth = 1280;
