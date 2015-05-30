@@ -116,7 +116,7 @@ namespace _2DPlatformer {
         }
 
         protected override void Draw(GameTime gameTime) {
-            _renderingSystem.DrawWithRenderTarget(_graphics, _stateManager.GetRenderTargets());
+            _renderingSystem.DrawWithRenderTarget(_stateManager.GetRenderTargets(), _stateManager.GetRenderTransformation());
             _frameCounter.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
