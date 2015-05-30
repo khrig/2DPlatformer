@@ -9,8 +9,6 @@ using Gengine.Systems;
 using Gengine.Utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 
 namespace _2DPlatformer {
     /// <summary>
@@ -57,13 +55,12 @@ namespace _2DPlatformer {
         protected override void Initialize() {
             base.Initialize();
 
-            _frameCounter = new FrameCounter(Content.Load<SpriteFont>("04b_03_10"), new Vector2(10,10));
-
             _resourceManager.AddFont("text", Content.Load<SpriteFont>("04b_03_10"));
             _resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
             _resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
             _resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("Sprites/tiles32"));
 
+            _frameCounter = new FrameCounter(_resourceManager, "text", new Vector2(10, 10));
         }
 
         /// <summary>
@@ -90,11 +87,11 @@ namespace _2DPlatformer {
 
             _renderingSystem = new RenderingSystem(_resourceManager, _spriteBatch, _renderTarget, _windowWidth, _windowHeight);
 
-            _stateManager.Add("menu", new MenuState(_world));
-            _stateManager.Add("game", new GameState(_world, new MapRepository(true)));
-            _stateManager.Add("pause", new PauseState(_world));
+            _stateManager.Add(States.States.Menu, new MenuState(_world));
+            _stateManager.Add(States.States.Game, new GameState(_world, new MapRepository(true)));
+            _stateManager.Add(States.States.Pause, new PauseState(_world));
 
-            _stateManager.PushState("menu");
+            _stateManager.PushState(States.States.Menu);
         }
 
         protected override void UnloadContent() {

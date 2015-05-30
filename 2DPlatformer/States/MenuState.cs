@@ -53,7 +53,7 @@ namespace _2DPlatformer.States {
                 case "Enter":
                     if (_options[_selectedOption].Text == "Start") {
                         StateManager.PopState();
-                        StateManager.PushState("game");
+                        StateManager.PushState(States.Game);
                     }
                     else {
                         StateManager.PopState();

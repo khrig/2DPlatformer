@@ -29,11 +29,11 @@ namespace _2DPlatformer.States {
                 var command = commandQueue.GetNext();
                 if (command.Name == "Escape") {
                     StateManager.PopState();
-                    StateManager.PushState("menu");
+                    StateManager.PushState(States.Menu);
                     return;
                 }
                 if (command.Name == "Pause") {
-                    StateManager.PushState("pause");
+                    StateManager.PushState(States.Pause);
                     return;
                 }
             }
