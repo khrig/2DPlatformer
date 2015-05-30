@@ -37,9 +37,9 @@ namespace _Platformer2D {
         public string TextureName {
             get { return "player"; }
         }
-        public string FontName {
-            get { return "player"; }
-        }
+        public string FontName { get { throw new System.NotImplementedException(); } }
+        public string Text { get { throw new System.NotImplementedException(); } }
+        public Color Color { get { throw new System.NotImplementedException(); } }
 
         private Rectangle sourceRectangle;
         public Rectangle SourceRectangle {

@@ -47,8 +47,8 @@ namespace _2DPlatformer {
             get { return Position; }
         }
 
-        public string FontName {
-            get { throw new System.NotImplementedException(); }
-        }
+        public string FontName { get { throw new System.NotImplementedException(); } }
+        public string Text { get { throw new System.NotImplementedException(); } }
+        public Color Color { get { throw new System.NotImplementedException(); } }
     }
 }

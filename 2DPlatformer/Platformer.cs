@@ -61,6 +61,7 @@ namespace _2DPlatformer {
 
             frameCounter = new FrameCounter(Content.Load<SpriteFont>("04b_03_10"), new Vector2(10,10));
 
+            resourceManager.AddFont("text", Content.Load<SpriteFont>("04b_03_10"));
             resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
             resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
             resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("Sprites/tiles32"));
@@ -91,9 +92,9 @@ namespace _2DPlatformer {
 
             renderingSystem = new RenderingSystem(resourceManager, spriteBatch, renderTarget, WindowWidth, WindowHeight);
 
-            stateManager.Add("menu", new MenuState(world, Content.Load<SpriteFont>("04b_03_24")));
+            stateManager.Add("menu", new MenuState(world));
             stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
-            stateManager.Add("pause", new PauseState(world, Content.Load<SpriteFont>("04b_03_24")));
+            stateManager.Add("pause", new PauseState(world));
 
             stateManager.PushState("menu");
         }

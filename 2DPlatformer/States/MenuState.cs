@@ -10,46 +10,37 @@ using System.Linq;
 
 namespace _2DPlatformer.States {
     class MenuState : State {
-        private readonly List<string> options = new List<string>();
+        private readonly List<MenuOption> options = new List<MenuOption>();
         private int selectedOption;
-        private readonly TextRenderer textRenderer;
 
-        public MenuState(IWorld world, SpriteFont font) : base(world) {
-            textRenderer = new TextRenderer(world, font);
+        public MenuState(IWorld world) : base(world) {
         }
 
         public override bool Update(float deltaTime) {
+            for (int i = 0; i < options.Count; i++) {
+                options[i].Color = i == selectedOption ? Color.LightGreen : Color.White;
+            }
             return false;
         }
 
         public override bool Draw(SpriteBatch spriteBatch) {
-            DrawTitle(spriteBatch);
-            DrawMenuOptions(spriteBatch);
             return false;
         }
 
         public override IEnumerable<IRenderable> GetRenderTargets() {
-            return Enumerable.Empty<IRenderable>();
+            return options;
         }
 
         public override void Init() {
             options.Clear();
-            options.Add("Start");
-            options.Add("Exit");
+            options.Add(new MenuOption("text", "Start", Color.White, new Vector2(100, World.View.Center.Y)));
+            options.Add(new MenuOption("text", "Exit", Color.White, new Vector2(100, World.View.Center.Y + 40)));
             selectedOption = 0;
         }
 
         private void DrawTitle(SpriteBatch spriteBatch) {
             string title = "PLATFORM YEAH";
-            textRenderer.DrawCenteredString(spriteBatch, title, World.View.Center.Y - 50, Color.Green);
-        }
-
-        private void DrawMenuOptions(SpriteBatch spriteBatch) {
-            float y = World.View.Center.Y;
-            for (int i = 0; i < options.Count; i++) {
-                textRenderer.DrawCenteredString(spriteBatch, options[i], y, i == selectedOption ? Color.LightGreen : Color.White);
-                y += 40;
-            }
+            //textRenderer.DrawCenteredString(spriteBatch, title, World.View.Center.Y - 50, Color.Green);
         }
 
         public override void HandleCommands(CommandQueue commandQueue) {
@@ -67,7 +58,7 @@ namespace _2DPlatformer.States {
             else if (command.Name == "Escape")
                 StateManager.PopState();
             else if (command.Name == "Enter") {
-                if (options[selectedOption] == "Start") {
+                if (options[selectedOption].Text == "Start") {
                     StateManager.PopState();
                     StateManager.PushState("game");
                 }

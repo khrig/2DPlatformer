@@ -31,9 +31,9 @@ namespace _2DPlatformer {
         public string TextureName {
             get { return "player"; }
         }
-        public string FontName {
-            get { return "player"; }
-        }
+        public string FontName { get { throw new System.NotImplementedException(); } }
+        public string Text { get { throw new System.NotImplementedException(); } }
+        public Color Color { get { throw new System.NotImplementedException(); } }
         public Vector2 RenderPosition {
             get { return Position; }
         }

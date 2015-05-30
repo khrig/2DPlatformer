@@ -12,11 +12,8 @@ using System.Text;
 
 namespace _2DPlatformer.States {
     public class PauseState : State {
-        private readonly TextRenderer textRenderer;
-
-        public PauseState(IWorld world, SpriteFont font)
+        public PauseState(IWorld world)
             : base(world) {
-            textRenderer = new TextRenderer(world, font);
         }
 
         public override bool Update(float deltaTime) {
@@ -24,7 +21,7 @@ namespace _2DPlatformer.States {
         }
 
         public override bool Draw(SpriteBatch spriteBatch) {
-            textRenderer.DrawCenteredString(spriteBatch, "PAUSED", World.View.Center.Y - 50, Color.Green);
+            //textRenderer.DrawCenteredString(spriteBatch, "PAUSED", World.View.Center.Y - 50, Color.Green);
             return false;
         }
 
