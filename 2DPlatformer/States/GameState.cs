@@ -10,7 +10,7 @@ namespace _2DPlatformer.States {
         private readonly IMapRepository _mapRepository;
         private IPlayer _player;
         private TileMap _tileMap;
-        private SimpleCamera2D _simpleCamera2D;
+        private readonly SimpleCamera2D _simpleCamera2D;
 
         public GameState(IWorld world, IMapRepository mapRepository) : base(world) {
             _mapRepository = mapRepository;
@@ -52,6 +52,7 @@ namespace _2DPlatformer.States {
             UnregisterRenderTarget(_player);
             _player = null;
             _tileMap = null;
+            SetTransformation(null);
         }
     }
 }
