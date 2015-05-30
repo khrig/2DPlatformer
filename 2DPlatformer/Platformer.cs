@@ -17,36 +17,35 @@ namespace _2DPlatformer {
     /// This is the main type for your game.
     /// </summary>
     public class Platformer : Game {
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private RenderTarget2D renderTarget;
-        private RenderingSystem renderingSystem;
-        private readonly StateManager stateManager;
-        private readonly CommandQueue commandQueue;
-        private readonly ICommandFactory commandFactory;
-        private readonly IResourceManager resourceManager;
+        private readonly GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private RenderTarget2D _renderTarget;
+        private RenderingSystem _renderingSystem;
+        private readonly StateManager _stateManager;
+        private readonly CommandQueue _commandQueue;
+        private readonly ICommandFactory _commandFactory;
+        private readonly IResourceManager _resourceManager;
+        private readonly IWorld _world;
 
-        private readonly IWorld world;
+        FrameCounter _frameCounter;
 
-        FrameCounter frameCounter;
+        private readonly int _ingameWidth = 640;
+        private readonly int _ingameHeight = 360;
 
-        private int IngameWidth = 640;
-        private int IngameHeight = 360;
-
-        private int WindowHeight;
-        private int WindowWidth;
+        private int _windowHeight;
+        private int _windowWidth;
 
         public Platformer()
             : base() {
             Content.RootDirectory = "Content";
 
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
 
-            world = new TwoDWorld(IngameWidth, IngameHeight);
-            stateManager = new StateManager();
-            commandQueue = new CommandQueue();
-            commandFactory = new PlatformerCommandFactory();
-            resourceManager = new ResourceManager();
+            _world = new TwoDWorld(_ingameWidth, _ingameHeight);
+            _stateManager = new StateManager();
+            _commandQueue = new CommandQueue();
+            _commandFactory = new PlatformerCommandFactory();
+            _resourceManager = new ResourceManager();
         }
 
         /// <summary>
@@ -56,15 +55,14 @@ namespace _2DPlatformer {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
-            // TODO: Add your initialization logic here
             base.Initialize();
 
-            frameCounter = new FrameCounter(Content.Load<SpriteFont>("04b_03_10"), new Vector2(10,10));
+            _frameCounter = new FrameCounter(Content.Load<SpriteFont>("04b_03_10"), new Vector2(10,10));
 
-            resourceManager.AddFont("text", Content.Load<SpriteFont>("04b_03_10"));
-            resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
-            resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
-            resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("Sprites/tiles32"));
+            _resourceManager.AddFont("text", Content.Load<SpriteFont>("04b_03_10"));
+            _resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
+            _resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
+            _resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("Sprites/tiles32"));
 
         }
 
@@ -74,7 +72,7 @@ namespace _2DPlatformer {
         /// </summary>
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // set the resolution to the monitor (for fullscreen)
             //WindowWidth = graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
@@ -82,78 +80,45 @@ namespace _2DPlatformer {
             //graphics.IsFullScreen = true;
 
             // For window (debugging)
-            WindowWidth = graphics.PreferredBackBufferWidth = 1280;
-            WindowHeight = graphics.PreferredBackBufferHeight = 720;
+            _windowWidth = _graphics.PreferredBackBufferWidth = 1280;
+            _windowHeight = _graphics.PreferredBackBufferHeight = 720;
 
-            graphics.ApplyChanges();
+            _graphics.ApplyChanges();
 
             // Ingame resolution
-            renderTarget = new RenderTarget2D(GraphicsDevice, IngameWidth, IngameHeight);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, _ingameWidth, _ingameHeight);
 
-            renderingSystem = new RenderingSystem(resourceManager, spriteBatch, renderTarget, WindowWidth, WindowHeight);
+            _renderingSystem = new RenderingSystem(_resourceManager, _spriteBatch, _renderTarget, _windowWidth, _windowHeight);
 
-            stateManager.Add("menu", new MenuState(world));
-            stateManager.Add("game", new GameState(world, new MapRepository(true), resourceManager, spriteBatch));
-            stateManager.Add("pause", new PauseState(world));
+            _stateManager.Add("menu", new MenuState(_world));
+            _stateManager.Add("game", new GameState(_world, new MapRepository(true)));
+            _stateManager.Add("pause", new PauseState(_world));
 
-            stateManager.PushState("menu");
+            _stateManager.PushState("menu");
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent() {
             // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime) {
-            stateManager.ChangeState();
-            if (stateManager.IsEmpty())
+            _stateManager.ChangeState();
+            if (_stateManager.IsEmpty())
                 Exit();
 
-            InputManager.Instance.HandleInput(commandQueue, commandFactory);
-            stateManager.HandleCommands(commandQueue);
-            stateManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            InputManager.Instance.HandleInput(_commandQueue, _commandFactory);
+            _stateManager.HandleCommands(_commandQueue);
+            _stateManager.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            frameCounter.Update(gameTime);
+            _frameCounter.Update(gameTime);
             
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            renderingSystem.DrawWithRenderTarget(graphics, stateManager.GetRenderTargets());
-            //DrawWithRenderTarget();
-
-            frameCounter.Draw(spriteBatch);
-
+            _renderingSystem.DrawWithRenderTarget(_graphics, _stateManager.GetRenderTargets());
+            _frameCounter.Draw(_spriteBatch);
             base.Draw(gameTime);
         }
-
-        //private void DrawWithRenderTarget() {
-        //    // Set the device to the render target
-        //    graphics.GraphicsDevice.SetRenderTarget(renderTarget);
-        //    graphics.GraphicsDevice.Clear(Color.Black);
-
-        //    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-        //    stateManager.Draw(spriteBatch);
-        //    spriteBatch.End();
-
-        //    // Reset the device to the back buffer
-        //    graphics.GraphicsDevice.SetRenderTarget(null);
-
-        //    spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-        //    spriteBatch.Draw((Texture2D)renderTarget, new Rectangle(0, 0, WindowWidth, WindowHeight), Color.White);
-        //    spriteBatch.End();
-        //}
     }
 }

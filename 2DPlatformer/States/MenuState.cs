@@ -1,46 +1,40 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Gengine;
 using Gengine.Commands;
+using Gengine.Entities;
 using Gengine.State;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using _2DPlatformer.Rendering;
-using Gengine.Entities;
-using System.Linq;
 
 namespace _2DPlatformer.States {
-    class MenuState : State {
-        private readonly List<MenuOption> options = new List<MenuOption>();
-        private int selectedOption;
+    public class MenuState : State {
+        private readonly List<MenuOption> _options;
+        private readonly List<MenuOption> _title;
+        private int _selectedOption;
 
         public MenuState(IWorld world) : base(world) {
+            _options = new List<MenuOption>(5);
+            _title = new List<MenuOption>(1);
         }
 
         public override bool Update(float deltaTime) {
-            for (int i = 0; i < options.Count; i++) {
-                options[i].Color = i == selectedOption ? Color.LightGreen : Color.White;
+            for (var i = 0; i < _options.Count; i++) {
+                _options[i].Color = i == _selectedOption ? Color.LightGreen : Color.White;
             }
             return false;
         }
-
-        public override bool Draw(SpriteBatch spriteBatch) {
-            return false;
-        }
-
+        
         public override IEnumerable<IRenderable> GetRenderTargets() {
-            return options;
+            return _options.Union(_title);
         }
 
         public override void Init() {
-            options.Clear();
-            options.Add(new MenuOption("text", "Start", Color.White, new Vector2(100, World.View.Center.Y)));
-            options.Add(new MenuOption("text", "Exit", Color.White, new Vector2(100, World.View.Center.Y + 40)));
-            selectedOption = 0;
-        }
-
-        private void DrawTitle(SpriteBatch spriteBatch) {
-            string title = "PLATFORM YEAH";
-            //textRenderer.DrawCenteredString(spriteBatch, title, World.View.Center.Y - 50, Color.Green);
+            _options.Clear();
+            _options.Add(new MenuOption("text", "Start", Color.White, new Vector2(World.View.Center.X - 20, World.View.Center.Y)));
+            _options.Add(new MenuOption("text", "Exit", Color.White, new Vector2(World.View.Center.X - 15, World.View.Center.Y + 40)));
+            _selectedOption = 0;
+            _title.Clear();
+            _title.Add(new MenuOption("text", "PLATFORM YEAH", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
         }
 
         public override void HandleCommands(CommandQueue commandQueue) {
@@ -50,34 +44,41 @@ namespace _2DPlatformer.States {
             }
         }
 
-        private void HandleCommand(ICommand command) {
-            if (command.Name == "Up")
-                MoveUp();
-            else if (command.Name == "Down")
-                MoveDown();
-            else if (command.Name == "Escape")
-                StateManager.PopState();
-            else if (command.Name == "Enter") {
-                if (options[selectedOption].Text == "Start") {
+        private void HandleCommand(ICommand command)
+        {
+            switch (command.Name)
+            {
+                case "Up":
+                    MoveUp();
+                    break;
+                case "Down":
+                    MoveDown();
+                    break;
+                case "Escape":
                     StateManager.PopState();
-                    StateManager.PushState("game");
-                }
-                else {
-                    StateManager.PopState();
-                }
+                    break;
+                case "Enter":
+                    if (_options[_selectedOption].Text == "Start") {
+                        StateManager.PopState();
+                        StateManager.PushState("game");
+                    }
+                    else {
+                        StateManager.PopState();
+                    }
+                    break;
             }
         }
 
         private void MoveDown() {
-            selectedOption++;
-            if (selectedOption >= options.Count)
-                selectedOption = 0;
+            _selectedOption++;
+            if (_selectedOption >= _options.Count)
+                _selectedOption = 0;
         }
 
         private void MoveUp() {
-            selectedOption--;
-            if (selectedOption < 0)
-                selectedOption = options.Count - 1;
+            _selectedOption--;
+            if (_selectedOption < 0)
+                _selectedOption = _options.Count - 1;
         }
     }
 }
