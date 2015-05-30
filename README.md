@@ -11,9 +11,9 @@ Could do more collision detection with the sample on dropbox,
 PlatformerWithRamps.zip in V2 map
 
 TODO:
-* Larger maps (more than one screen)
-* Camera
-* Create a small map (but larger than one screen) for reference (if procedural generation)
+* ~~Larger maps (more than one screen)~~
+* ~~Camera~~
+* ~~Create a small map (but larger than one screen) for reference (if procedural generation)~~
 * Procedural generation
  - Start with rooms and combine them (http://tinysubversions.com/spelunkyGen/)
  - Generate a room
