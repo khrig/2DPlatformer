@@ -17,6 +17,16 @@ namespace _2DPlatformer.States {
             return false;
         }
 
+        public override void Init() {
+            _title.Add(new MenuOption("text", "PAUSED", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
+            RegisterRenderTarget(_title);
+        }
+
+        public override void Unload() {
+            UnregisterRenderTarget(_title);
+            _title.Clear();
+        }
+
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
                 var command = commandQueue.GetNext();
@@ -27,16 +37,6 @@ namespace _2DPlatformer.States {
         private void HandleCommand(ICommand command) {
             if (command.Name == "Escape")
                 StateManager.PopState();
-        }
-
-        public override void Init() {
-            _title.Add(new MenuOption("text", "PAUSED", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
-            RegisterRenderTarget(_title);
-        }
-
-        public override void Unload() {
-            UnregisterRenderTarget(_title);
-            _title.Clear();
         }
     }
 }

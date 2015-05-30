@@ -24,21 +24,6 @@ namespace _2DPlatformer.States {
             return false;
         }
 
-        public override void HandleCommands(CommandQueue commandQueue) {
-            while (commandQueue.HasCommands()) {
-                var command = commandQueue.GetNext();
-                if (command.Name == "Escape") {
-                    StateManager.PopState();
-                    StateManager.PushState(States.Menu);
-                    return;
-                }
-                if (command.Name == "Pause") {
-                    StateManager.PushState(States.Pause);
-                    return;
-                }
-            }
-        }
-
         public override void Init() {
             _tileMap = _mapRepository.LoadMap("Maps\\largeroom.tmap");
             //player = new CollisionHandlingPlayer(new Vector2(100, 100), tileMap);
@@ -53,6 +38,21 @@ namespace _2DPlatformer.States {
             _player = null;
             _tileMap = null;
             SetTransformation(null);
+        }
+
+        public override void HandleCommands(CommandQueue commandQueue) {
+            while (commandQueue.HasCommands()) {
+                var command = commandQueue.GetNext();
+                if (command.Name == "Escape") {
+                    StateManager.PopState();
+                    StateManager.PushState(States.Menu);
+                    return;
+                }
+                if (command.Name == "Pause") {
+                    StateManager.PushState(States.Pause);
+                    return;
+                }
+            }
         }
     }
 }

@@ -30,6 +30,13 @@ namespace _2DPlatformer.States {
             RegisterRenderTarget(_options.Union(_title));
         }
 
+        public override void Unload() {
+            UnregisterRenderTarget(_options.Union(_title));
+            _options.Clear();
+            _title.Clear();
+            _selectedOption = 0;
+        }
+
         public override void HandleCommands(CommandQueue commandQueue) {
             while (commandQueue.HasCommands()) {
                 var command = commandQueue.GetNext();
@@ -72,13 +79,6 @@ namespace _2DPlatformer.States {
             _selectedOption--;
             if (_selectedOption < 0)
                 _selectedOption = _options.Count - 1;
-        }
-
-        public override void Unload() {
-            UnregisterRenderTarget(_options.Union(_title));
-            _options.Clear();
-            _title.Clear();
-            _selectedOption = 0;
         }
     }
 }
