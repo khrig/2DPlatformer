@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Gengine;
 using Gengine.Commands;
-using Gengine.Entities;
 using Gengine.State;
 using Microsoft.Xna.Framework;
 
@@ -32,10 +31,11 @@ namespace _2DPlatformer.States {
         public override void Init() {
             _title.Clear();
             _title.Add(new MenuOption("text", "PAUSED", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
+            RegisterRenderTarget(_title);
         }
 
-        public override IEnumerable<IRenderable> GetRenderTargets() {
-            return _title;
+        public override void Unload() {
+            
         }
     }
 }

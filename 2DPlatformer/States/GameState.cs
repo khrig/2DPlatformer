@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using Gengine;
+﻿using Gengine;
 using Gengine.Commands;
-using Gengine.Entities;
 using Gengine.Map;
 using Gengine.State;
 using Microsoft.Xna.Framework;
 
 namespace _2DPlatformer.States {
-    class GameState : State {
+    public class GameState : State {
         private IPlayer _player;
         private readonly TileMap _tileMap;
 
@@ -38,14 +36,13 @@ namespace _2DPlatformer.States {
         public override void Init() {
             //player = new CollisionHandlingPlayer(new Vector2(100, 100), tileMap);
             _player = new PreCheckingPlayer(new Vector2(100, 100), _tileMap);
+            RegisterRenderTarget(_tileMap.RenderableTiles);
+            RegisterRenderTarget(_player);
         }
-        
-        private List<IRenderable> _renderTargets;
-        public override IEnumerable<IRenderable> GetRenderTargets() {
-            _renderTargets = new List<IRenderable>();
-            _renderTargets.AddRange(_tileMap.RenderableTiles);
-            _renderTargets.Add(_player);
-            return _renderTargets;
+
+        public override void Unload() {
+            UnregisterRenderTarget(_tileMap.RenderableTiles);
+            UnregisterRenderTarget(_player);
         }
     }
 }

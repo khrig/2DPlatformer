@@ -2,7 +2,6 @@
 using System.Linq;
 using Gengine;
 using Gengine.Commands;
-using Gengine.Entities;
 using Gengine.State;
 using Microsoft.Xna.Framework;
 
@@ -24,10 +23,6 @@ namespace _2DPlatformer.States {
             return false;
         }
         
-        public override IEnumerable<IRenderable> GetRenderTargets() {
-            return _options.Union(_title);
-        }
-
         public override void Init() {
             _options.Clear();
             _options.Add(new MenuOption("text", "Start", Color.White, new Vector2(World.View.Center.X - 20, World.View.Center.Y)));
@@ -35,6 +30,7 @@ namespace _2DPlatformer.States {
             _selectedOption = 0;
             _title.Clear();
             _title.Add(new MenuOption("text", "PLATFORM YEAH", Color.Green, new Vector2(World.View.Center.X - 50, World.View.Center.Y - 50)));
+            RegisterRenderTarget(_options.Union(_title));
         }
 
         public override void HandleCommands(CommandQueue commandQueue) {
@@ -79,6 +75,10 @@ namespace _2DPlatformer.States {
             _selectedOption--;
             if (_selectedOption < 0)
                 _selectedOption = _options.Count - 1;
+        }
+
+        public override void Unload() {
+            UnregisterRenderTarget(_options.Union(_title));
         }
     }
 }

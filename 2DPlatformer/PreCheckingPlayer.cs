@@ -8,7 +8,7 @@ namespace _2DPlatformer {
     public class PreCheckingPlayer : IPlayer {
         public PreCheckingPlayer(Vector2 position, TileMap tileMap) {
             Position = position;
-            this._tileMap = tileMap;
+            _tileMap = tileMap;
             _sourceRectangle = new Rectangle(0, 0, 32, 32);
             _isJumping = true;
             _moveBoundingBox = new Rectangle(0, 0, 32, 32);
