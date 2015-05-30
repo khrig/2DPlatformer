@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 namespace _2DPlatformer.States {
     public class PauseState : State {
         private readonly List<MenuOption> _title;
+
         public PauseState(IWorld world)
             : base(world) {
             _title = new List<MenuOption>(1);

@@ -42,7 +42,7 @@
     <Compile Include="IPlayer.cs" />
     <Compile Include="MenuOption.cs" />
     <Compile Include="Platformer.cs" />
-    <Compile Include="PlatformerCommandFactory.cs" />
+    <Compile Include="Commands\PlatformerCommandFactory.cs" />
     <Compile Include="PlayerEntity.cs" />
     <Compile Include="PreCheckingPlayer.cs" />
     <Compile Include="Program.cs" />

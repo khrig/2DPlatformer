@@ -11,7 +11,7 @@ namespace _2DPlatformer.States {
         private IPlayer _player;
         private TileMap _tileMap;
         private readonly SimpleCamera2D _simpleCamera2D;
-
+        
         public GameState(IWorld world, IMapRepository mapRepository) : base(world) {
             _mapRepository = mapRepository;
             _simpleCamera2D = new SimpleCamera2D(world);
