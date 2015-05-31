@@ -10,13 +10,13 @@ namespace _2DPlatformer {
             _physicsComponent = new PhysicsComponent(position);
             _tileMap = tileMap;
             _moveWithCollisionComponent = new MoveWithCollisionComponent(new Rectangle(0, 0, 32, 32), _physicsComponent);
-            _animationComponent = new Animation("player", 32, 32);
+            InitializeAnimation();
         }
 
         private readonly TileMap _tileMap;
         private readonly PhysicsComponent _physicsComponent;
         private readonly MoveWithCollisionComponent _moveWithCollisionComponent;
-        private readonly Animation _animationComponent;
+        private AnimationController _animationController;
 
         public RenderType Type { get { return RenderType.Sprite; } }
         public string TextureName {
@@ -30,7 +30,7 @@ namespace _2DPlatformer {
         }
 
         public Rectangle SourceRectangle {
-            get { return _animationComponent.SourceRectangle; }
+            get { return _animationController.SourceRectangle; }
         }
         
         public void Update(float dt) {
@@ -38,11 +38,23 @@ namespace _2DPlatformer {
 
             _physicsComponent.ApplyPhysics(dt);
             _moveWithCollisionComponent.Move(dt, _tileMap);
-            _animationComponent.Update(dt);
+            UpdateAnimation(dt);
 
             _physicsComponent.Movement = 0.0f;
         }
-        
+
+        private void UpdateAnimation(float dt) {
+            if (_physicsComponent.IsJumping)
+                _animationController.SetRunningAnimation("jump");
+            else if (_physicsComponent.Movement > 0)
+                _animationController.SetRunningAnimation("moveright");
+            else if (_physicsComponent.Movement < 0)
+                _animationController.SetRunningAnimation("moveleft");
+            else
+                _animationController.SetRunningAnimation("idle");
+            _animationController.Update(dt);
+        }
+
         private void GetInput() {
             KeyboardState keyboardState = Keyboard.GetState();
             if (//gamePadState.IsButtonDown(Buttons.DPadLeft) ||
@@ -60,6 +72,15 @@ namespace _2DPlatformer {
                 keyboardState.IsKeyDown(Keys.Space) ||
                 keyboardState.IsKeyDown(Keys.Up) ||
                 keyboardState.IsKeyDown(Keys.W);
+        }
+
+        private void InitializeAnimation() {
+            _animationController = new AnimationController();
+            _animationController.AddAnimation("moveright", new Animation(0, 0, 32, 32, 3, 0.1f));
+            _animationController.AddAnimation("moveleft", new Animation(0, 32, 32, 32, 3, 0.1f));
+            _animationController.AddAnimation("jump", new Animation(160, 0, 32, 32, 2, 0.3f));
+            _animationController.AddAnimation("idle", new Animation(0, 0, 32, 32, 1, 0.5f));
+            _animationController.SetRunningAnimation("jump");
         }
     }
 }
