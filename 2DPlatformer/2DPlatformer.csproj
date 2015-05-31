@@ -43,7 +43,7 @@
     <Compile Include="CollisionHandlingPlayer.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="MenuOption.cs" />
-    <Compile Include="MoveWithCollisionComponent.cs" />
+    <Compile Include="CollisionComponent.cs" />
     <Compile Include="PhysicsComponent.cs" />
     <Compile Include="Platformer.cs" />
     <Compile Include="Commands\PlatformerCommandFactory.cs" />
