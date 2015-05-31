@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework;
 
 namespace _2DPlatformer
 {
-    public class MoveWithCollisionComponent
+    public class CollisionComponent
     {
         private readonly PhysicsComponent _physicsComponent;
         private Rectangle _boundingBox;
 
-        public MoveWithCollisionComponent(Rectangle boundingBox, PhysicsComponent physicsComponent)
+        public CollisionComponent(Rectangle boundingBox, PhysicsComponent physicsComponent)
         {
             _boundingBox = boundingBox;
             _physicsComponent = physicsComponent;

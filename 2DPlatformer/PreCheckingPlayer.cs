@@ -9,13 +9,13 @@ namespace _2DPlatformer {
         public PreCheckingPlayer(Vector2 position, TileMap tileMap) {
             _physicsComponent = new PhysicsComponent(position);
             _tileMap = tileMap;
-            _moveWithCollisionComponent = new MoveWithCollisionComponent(new Rectangle(0, 0, 32, 32), _physicsComponent);
+            _collisionComponent = new CollisionComponent(new Rectangle(0, 0, 32, 32), _physicsComponent);
             InitializeAnimation();
         }
 
         private readonly TileMap _tileMap;
         private readonly PhysicsComponent _physicsComponent;
-        private readonly MoveWithCollisionComponent _moveWithCollisionComponent;
+        private readonly CollisionComponent _collisionComponent;
         private AnimationController _animationController;
 
         public RenderType Type { get { return RenderType.Sprite; } }
@@ -37,7 +37,7 @@ namespace _2DPlatformer {
             GetInput();
 
             _physicsComponent.ApplyPhysics(dt);
-            _moveWithCollisionComponent.Move(dt, _tileMap);
+            _collisionComponent.Move(dt, _tileMap);
             UpdateAnimation(dt);
 
             _physicsComponent.Movement = 0.0f;
