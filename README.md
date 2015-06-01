@@ -14,12 +14,26 @@ TODO:
 * ~~Larger maps (more than one screen)~~
 * ~~Camera~~
 * ~~Create a small map (but larger than one screen) for reference (if procedural generation)~~
+* ~~Animation (sprites)~~
+* ~~Pause state~~
+* Background (repeated sprite)
+* Player shoot
+* Enemies 
+  - stationary
+  - moves
+* Player dies if hitting enemy (first version)
+* Enemy dies if hit two times (first version)
+* Player wins if reach end (collision with specific tile)
+* Game over state
+   - With menu to exit or go to main menu
+* Parallax background
+* Smaller hitbox for player (then sprite size)
 * Procedural generation
  - Start with rooms and combine them (http://tinysubversions.com/spelunkyGen/)
  - Generate a room
  - Combine generated rooms
-* Animation (sprites)
 * Gamepad control
+* Edit backgrounds in TileEditor
 * Ramps (for the map)
 * TileEditor needs to set that the tile is sloped and what direction, also what kind of slope (start with 45 degrees)
 * TileEditor - Layer type (which is solid)
@@ -28,14 +42,3 @@ TODO:
    - Background objects
    - Collision
    - Foreground
-* Smaller hitbox for player (then sprite size)
-* Backgrounds (Parallax support)
-* Edit backgrounds in TileEditor
-* Player shoot
-* Enemies
-* Player dies if hitting enemy (first version)
-* Enemy dies if hit two times (first version)
-* Player wins if reach end (collision with specific tile)
-* Game over state
-   - With menu to exit or go to main menu
-* Pause state
