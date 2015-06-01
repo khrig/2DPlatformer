@@ -59,6 +59,7 @@ namespace _2DPlatformer {
             _resourceManager.AddTexture("environmentTexture", Content.Load<Texture2D>("Sprites/phase-2"));
             _resourceManager.AddTexture("player", Content.Load<Texture2D>("Sprites/characters_7"));
             _resourceManager.AddTexture("tiles32.png", Content.Load<Texture2D>("Sprites/tiles32"));
+            _resourceManager.AddTexture("bkg", Content.Load<Texture2D>("Sprites/bkg"));
 
             _frameCounter = new FrameCounter(_resourceManager, "text", new Vector2(10, 10));
         }

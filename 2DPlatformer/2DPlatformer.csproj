@@ -40,6 +40,7 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="AnimationController.cs" />
+    <Compile Include="Background.cs" />
     <Compile Include="CollisionHandlingPlayer.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="MenuOption.cs" />

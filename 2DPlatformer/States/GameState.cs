@@ -11,6 +11,7 @@ namespace _2DPlatformer.States {
         private IPlayer _player;
         private TileMap _tileMap;
         private readonly SimpleCamera2D _simpleCamera2D;
+        private Background _background;
         
         public GameState(IWorld world, IMapRepository mapRepository) : base(world) {
             _mapRepository = mapRepository;
@@ -28,11 +29,14 @@ namespace _2DPlatformer.States {
             _tileMap = _mapRepository.LoadMap("Maps\\largeroom.tmap");
             //player = new CollisionHandlingPlayer(new Vector2(100, 100), tileMap);
             _player = new PreCheckingPlayer(new Vector2(100, 100), _tileMap);
+            _background = new Background("bkg", Vector2.Zero, new Rectangle(0,0,1280,360));
+            RegisterRenderTarget(_background);
             RegisterRenderTarget(_tileMap.RenderableTiles);
             RegisterRenderTarget(_player);
         }
 
         public override void Unload() {
+            UnregisterRenderTarget(_background);
             UnregisterRenderTarget(_tileMap.RenderableTiles);
             UnregisterRenderTarget(_player);
             _player = null;
